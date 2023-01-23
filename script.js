@@ -34,6 +34,8 @@ function createList(){
     .forEach((person, index) =>{
         const listItem = document.createElement("li");
 
+        
+
         listItem.setAttribute('data-index', index);
 
 
@@ -50,4 +52,56 @@ function createList(){
         draggable_list.appendChild(listItem);
 
     })
+
+    addEventListeners();
+
+    function dragStart(){
+        dragStartIndex = this.closest('li').getAttribute('data-index');
+        
+    }
+    function dragEnter(){
+        this.classList.add('over')
+
+    }
+    function dragLeave(){
+        this.classList.remove('')
+
+    }
+    function dragOver(){
+
+    }
+    function dragDrop(){
+        const dragEndIndex = this.getAttribute('data-index');
+        swapItems(dragStartIndex, dragEndIndex);
+
+        this.classList.remove('over');
+    }
+
+    function swapItems(fromIndex, toIndex){
+        const itemOne = listItems[fromIndex].querySelectorAll('.draggable');
+        const itemTwo = listItems[toIndex].querySelectorAll('.draggable');
+
+        listItems[fromIndex].appendChild(itemTwo);
+        listItems[toIndex].appendChild(itemOne);
+        
+        
+
+    }
+
+    function addEventListeners(){
+        const draggables = document.querySelectorAll('.draggable');
+        const dragListItems = document.querySelectorAll('.draggable-list li');
+
+        draggables.forEach(draggable =>{
+            draggable.addEventListener('dragstart', dragStart);
+        })
+        dragListItems.forEach(item =>{
+            item.addEventListener('dragover', dragOver);
+            item.addEventListener('drop', dragDrop);
+            item.addEventListener('dragenter', dragEnter);
+            item.addEventListener('dragleave', dragLeave);
+        })
+
+    }
+
 }
